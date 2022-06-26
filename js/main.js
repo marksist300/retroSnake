@@ -3,7 +3,7 @@ const gameScreen = document.querySelector('canvas');
 const phone = document.querySelector('.phone')
 const canvas = document.querySelector('#game-canvas');
 const ctx = canvas.getContext('2d');
-
+// snake and food objects
 let snake= {
     x: Math.floor(Math.random()*gameScreen.width),
     y: Math.floor(Math.random()*gameScreen.height),
@@ -15,6 +15,11 @@ let snake= {
     get height(){
         return this._height;
     },
+
+    drawSnake(){
+        ctx.beginPath();
+        ctx.fillRect(snake.x, snake.y, snake.width, snake.height);
+    }
 }
 
 let food = {
@@ -29,23 +34,11 @@ let food = {
 
     drawFood(){
         ctx.beginPath();
-        ctx.strokeRect(this.x, this.y, 5, 5)
-        console.log('working', this.x, this.y)
+        ctx.strokeRect(this.x, this.y, 4.3, 4.3)
     }
 }
 
-function drawSnake(){
-    ctx.beginPath();
-    ctx.fillRect(snake.x, snake.y, snake.width, snake.height);
-}
-
-function drawFood(){
-    // let x =Math.floor(Math.random()*gameScreen.width);
-    // let y = Math.floor(Math.random()*gameScreen.height);
-    ctx.beginPath();
-    ctx.strokeRect(x, y, .5, .5)
-}
-
+// launch initial Game canvas into action
 function gameCanvas(){
         snakeMotion()
     }
@@ -70,10 +63,11 @@ function snakeMotion(){
     clear()
     food.drawFood();
     nextPosition()
-    drawSnake()
+    snake.drawSnake()
     requestAnimationFrame(snakeMotion)
 } 
 
+// Decide the direction of the snake from the key presses
 function positionKey(e){
     switch(e){
     //key right
@@ -113,7 +107,7 @@ function positionKey(e){
     
 }
 
-
+// event listener for key presses
 document.body.addEventListener('keydown', e=>{
     positionKey(e.keyCode)
 })
