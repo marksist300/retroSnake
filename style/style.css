@@ -57,7 +57,7 @@ table {
 .screen {
     position: absolute;
     background-color: rgb(160, 195, 60);
-    border: 2px solid red;
+    /* border: 2px solid red; */
     border-radius: 18px;
     padding: .7rem .2rem .9rem .2rem;
     top: 26%;
@@ -71,10 +71,10 @@ table {
     display: block;
     position: absolute;
     border: 3px solid rgb(34, 45, 29);
-    width: 95%;
-    height: 80%;
-    top: 14.7%;
-    left: 2.75%;
+    width: 90%;
+    height: 75%;
+    top: 18.5%;
+    left: 5%;
 }
 
 img {

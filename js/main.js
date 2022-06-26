@@ -1,17 +1,23 @@
 let totalFoodEaten = 0;
+let size = 10
+const gameScreen = document.querySelector('.phone');
 
-const gameScreen = document.querySelector('#screen');
-
-(function gameCanvas(){
-    function init(){
-        const canvas = document.querySelector('#screen');
-        const context = canvas.getContext('2d');
-        context.beginPath()
-        context.fillRect(2, 2, 4, 4)
-      
+function gameCanvas(){
+        console.log('loaded')
+        const canvas = document.querySelector('#game-canvas');
+        const ctx = canvas.getContext('2d');
+        ctx.beginPath()
+        ctx.fillRect(2, 2, size, 5);
+        ctx.lineTo(50, 50);
+        ctx.stroke()
         // filled square X: 125, Y: 35, width/height 50
-        context.beginPath()
-        context.fillRect(125, 35, 50, 50)
     }
-    document.addEventListener('DOMContentLoaded', init)
-})();
+gameCanvas()
+
+gameScreen.addEventListener('click', increaser)
+
+function increaser(){
+    size += 5;
+    console.log(size)
+    gameCanvas()
+}
