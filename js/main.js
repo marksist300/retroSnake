@@ -17,18 +17,41 @@ let snake= {
     },
 }
 
+let food = {
+    x: Math.floor(Math.random()*gameScreen.width),
+    y: Math.floor(Math.random()*gameScreen.height),
+
+    foodReload(){
+        this.x = Math.floor(Math.random()*gameScreen.width)
+        this.y = Math.floor(Math.random()*gameScreen.height)
+        this.drawFood();
+    },
+
+    drawFood(){
+        ctx.beginPath();
+        ctx.strokeRect(this.x, this.y, 5, 5)
+        console.log('working', this.x, this.y)
+    }
+}
+
 function drawSnake(){
-    ctx.beginPath()
+    ctx.beginPath();
     ctx.fillRect(snake.x, snake.y, snake.width, snake.height);
 }
 
+function drawFood(){
+    // let x =Math.floor(Math.random()*gameScreen.width);
+    // let y = Math.floor(Math.random()*gameScreen.height);
+    ctx.beginPath();
+    ctx.strokeRect(x, y, .5, .5)
+}
+
 function gameCanvas(){
-        console.log('loaded')
         snakeMotion()
-        drawSnake()
     }
 
 phone.addEventListener('click', gameCanvas)
+
 
 function snakeBodyIncreaser(){
     snake.width += 5;
@@ -41,10 +64,11 @@ function clear(){
 function nextPosition(){
     snake.x += snake.moveX;
     snake.y += snake.moveY;
-
 }
+
 function snakeMotion(){
     clear()
+    food.drawFood();
     nextPosition()
     drawSnake()
     requestAnimationFrame(snakeMotion)
