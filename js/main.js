@@ -5,8 +5,8 @@ const canvas = document.querySelector('#game-canvas');
 const ctx = canvas.getContext('2d');
 // snake and food objects
 let snake= {
-    x: Math.floor(Math.random()*gameScreen.width),
-    y: Math.floor(Math.random()*gameScreen.height),
+    headX: Math.floor(Math.random()*gameScreen.width),
+    headY: Math.floor(Math.random()*gameScreen.height),
     moveX: 0,
     moveY: 0,
     width: 10,
@@ -18,23 +18,28 @@ let snake= {
 
     drawSnake(){
         ctx.beginPath();
-        ctx.fillRect(snake.x, snake.y, snake.width, snake.height);
+        ctx.fillRect(snake.headX, snake.headY, snake.width, snake.height);
+    },
+
+    increase() {
+        this.width += 5;
     }
 }
 
 let food = {
     x: Math.floor(Math.random()*gameScreen.width),
     y: Math.floor(Math.random()*gameScreen.height),
-
     foodReload(){
         this.x = Math.floor(Math.random()*gameScreen.width)
         this.y = Math.floor(Math.random()*gameScreen.height)
         this.drawFood();
+        console.log('after',this.x, this.y)
     },
 
     drawFood(){
         ctx.beginPath();
-        ctx.strokeRect(this.x, this.y, 4.3, 4.3)
+        ctx.strokeRect(this.x, this.y, 4, 4)
+        console.log('before',this.x, this.y)
     }
 }
 
@@ -55,11 +60,17 @@ function clear(){
 }
 
 function nextPosition(){
-    snake.x += snake.moveX;
-    snake.y += snake.moveY;
+    snake.headX += snake.moveX;
+    snake.headY += snake.moveY;
+    // console.log('snake',snake.x, snake.y)
 }
 
 function snakeMotion(){
+    if(snake.headX === food.x && snake.headY === food.y){
+        // food.foodReload()
+        // snake.increase()
+        console.log('hello')
+    }
     clear()
     food.drawFood();
     nextPosition()
