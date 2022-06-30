@@ -5,8 +5,10 @@ const canvas = document.querySelector('#game-canvas');
 const ctx = canvas.getContext('2d');
 // snake and food objects
 let snake= {
-    headX: Math.floor(Math.random()*gameScreen.width),
-    headY: Math.floor(Math.random()*gameScreen.height),
+    headX: Math.floor(Math.random()*gameScreen.width-10),
+    headY: Math.floor(Math.random()*gameScreen.height-10),
+    // bodyX: ,
+    // bodyY: ,
     moveX: 0,
     moveY: 0,
     width: 10,
@@ -21,30 +23,39 @@ let snake= {
         ctx.fillRect(snake.headX, snake.headY, snake.width, snake.height);
     },
 
+    eatFood(){
+        if(food.x === snake.headX && food.y === snake.headY){
+            food.foodReload()
+            clear()
+            this.increase()
+        }
+    },
+
     increase() {
         this.width += 5;
     }
 }
 
 let food = {
-    x: Math.floor(Math.random()*gameScreen.width),
-    y: Math.floor(Math.random()*gameScreen.height),
+    x: Math.floor(Math.random()*gameScreen.width-10),
+    y: Math.floor(Math.random()*gameScreen.height-10),
     foodReload(){
-        this.x = Math.floor(Math.random()*gameScreen.width)
-        this.y = Math.floor(Math.random()*gameScreen.height)
+        this.x = Math.floor(Math.random()*gameScreen.width-10)
+        this.y = Math.floor(Math.random()*gameScreen.height-10)
         this.drawFood();
         console.log('after',this.x, this.y)
     },
 
     drawFood(){
         ctx.beginPath();
-        ctx.strokeRect(this.x, this.y, 4, 4)
+        ctx.fillRect(this.x, this.y, 4, 4)
         console.log('before',this.x, this.y)
     }
 }
 
 // launch initial Game canvas into action
 function gameCanvas(){
+        snake.eatFood();
         snakeMotion()
     }
 
@@ -66,23 +77,34 @@ function nextPosition(){
 }
 
 function snakeMotion(){
-    if(snake.headX === food.x && snake.headY === food.y){
-        // food.foodReload()
-        // snake.increase()
-        console.log('hello')
-    }
-    clear()
+    clear();
+    nextPosition();
     food.drawFood();
-    nextPosition()
-    snake.drawSnake()
-    requestAnimationFrame(snakeMotion)
-} 
+    snake.drawSnake();
+    requestAnimationFrame(snakeMotion);
+    }
+    
+
+// function moveRight(){
+//     if(snake.moveX >= gameScreen.width){
+//         return 
+//     }
+//         if (snake.moveX === -1) {
+//     } else{
+//         snake.moveX =1;
+//         snake.moveY = 0;
+//     }
+// }
 
 // Decide the direction of the snake from the key presses
 function positionKey(e){
     switch(e){
     //key right
       case 39:
+        if(snake.headX === gameScreen.width){
+            snake.moveX = 0;
+            break;
+        }
         if(snake.moveX === -1) {
             break
         }
@@ -120,5 +142,6 @@ function positionKey(e){
 
 // event listener for key presses
 document.body.addEventListener('keydown', e=>{
+    e.preventDefault()
     positionKey(e.keyCode)
 })
